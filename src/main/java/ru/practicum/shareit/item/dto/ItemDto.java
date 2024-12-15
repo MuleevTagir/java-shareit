@@ -2,7 +2,10 @@ package ru.practicum.shareit.item.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import ru.practicum.shareit.comment.dto.CommentDto;
+import ru.practicum.shareit.comment.model.Comment;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -10,18 +13,24 @@ import java.util.Objects;
  */
 public class ItemDto {
     private Long id;
+
     @NotBlank(message = "Название не может быть пустым")
     private String name;
+
     @NotBlank(message = "Описание не может быть пустым")
     private String description;
+
     @NotNull(message = "Поле available обязательно")
     private Boolean available;
 
-    public ItemDto(Long id, String name, String description, Boolean available) {
+    private List<CommentDto> comments;
+
+    public ItemDto(Long id, String name, String description, Boolean available, List<CommentDto> comments) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.available = available;
+        this.comments = comments;
     }
 
     public Long getId() {
@@ -56,18 +65,15 @@ public class ItemDto {
         this.available = available;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ItemDto itemDto = (ItemDto) o;
-        return Objects.equals(id, itemDto.id) && Objects.equals(name, itemDto.name) && Objects.equals(description, itemDto.description) && Objects.equals(available, itemDto.available);
+    public List<CommentDto> getComments() {
+        return comments;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, description, available);
+    public void setComments(List<CommentDto> comments) {
+        this.comments = comments;
     }
+
+
 
     @Override
     public String toString() {
@@ -76,6 +82,7 @@ public class ItemDto {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", available=" + available +
+                ", comments=" + comments +
                 '}';
     }
 }
