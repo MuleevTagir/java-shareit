@@ -1,30 +1,50 @@
 package ru.practicum.shareit.item.model;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import ru.practicum.shareit.comment.dto.CommentDto;
 import ru.practicum.shareit.user.model.User;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
  * TODO Sprint add-controllers.
  */
+@Entity
+@Table(name = "items")
 public class Item {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotBlank(message = "Название не может быть пустым")
+    @Column(nullable = false)
     private String name;
+
     @NotBlank(message = "Описание не может быть пустым")
+    @Column(nullable = false)
     private String description;
+
     @NotNull(message = "Поле available обязательно")
+    @Column(name = "is_available", nullable = false)
     private Boolean available;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
-    public Item(Long id, String name, String description, Boolean available, User owner) {
+    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY)
+    private List<CommentDto> comments;
+
+    public Item(Long id, String name, String description, Boolean available, User owner, List<CommentDto> comments) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.available = available;
         this.owner = owner;
+        this.comments = comments;
     }
 
     public Long getId() {
@@ -67,17 +87,25 @@ public class Item {
         this.owner = owner;
     }
 
+    public List<CommentDto> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentDto> comments) {
+        this.comments = comments;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Item item = (Item) o;
-        return Objects.equals(id, item.id) && Objects.equals(name, item.name) && Objects.equals(description, item.description) && Objects.equals(available, item.available) && Objects.equals(owner, item.owner);
+        return Objects.equals(id, item.id) && Objects.equals(name, item.name) && Objects.equals(description, item.description) && Objects.equals(available, item.available) && Objects.equals(owner, item.owner) && Objects.equals(comments, item.comments);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, available, owner);
+        return Objects.hash(id, name, description, available, owner, comments);
     }
 
     @Override
@@ -88,6 +116,7 @@ public class Item {
                 ", description='" + description + '\'' +
                 ", available=" + available +
                 ", owner=" + owner +
+                ", comments=" + comments +
                 '}';
     }
 }
