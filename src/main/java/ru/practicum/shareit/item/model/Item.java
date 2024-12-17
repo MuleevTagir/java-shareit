@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import ru.practicum.shareit.comment.dto.CommentDto;
+import ru.practicum.shareit.comment.model.Comment;
 import ru.practicum.shareit.user.model.User;
 
 import java.util.List;
@@ -36,9 +37,9 @@ public class Item {
     private User owner;
 
     @OneToMany(mappedBy = "item", fetch = FetchType.LAZY)
-    private List<CommentDto> comments;
+    private List<Comment> comments;
 
-    public Item(Long id, String name, String description, Boolean available, User owner, List<CommentDto> comments) {
+    public Item(Long id, String name, String description, Boolean available, User owner, List<Comment> comments) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -87,11 +88,11 @@ public class Item {
         this.owner = owner;
     }
 
-    public List<CommentDto> getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(List<CommentDto> comments) {
+    public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 
@@ -100,12 +101,12 @@ public class Item {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Item item = (Item) o;
-        return Objects.equals(id, item.id) && Objects.equals(name, item.name) && Objects.equals(description, item.description) && Objects.equals(available, item.available) && Objects.equals(owner, item.owner) && Objects.equals(comments, item.comments);
+        return Objects.equals(id, item.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, available, owner, comments);
+        return Objects.hash(id);
     }
 
     @Override

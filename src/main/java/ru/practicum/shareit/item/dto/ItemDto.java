@@ -3,8 +3,10 @@ package ru.practicum.shareit.item.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import ru.practicum.shareit.comment.dto.CommentDto;
+import ru.practicum.shareit.comment.model.Comment;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * TODO Sprint add-controllers.

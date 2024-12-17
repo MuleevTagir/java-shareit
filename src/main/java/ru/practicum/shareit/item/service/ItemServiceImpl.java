@@ -10,6 +10,7 @@ import ru.practicum.shareit.comment.mapper.CommentMapper;
 import ru.practicum.shareit.comment.model.Comment;
 import ru.practicum.shareit.comment.repository.CommentRepository;
 import ru.practicum.shareit.exception.ItemNotAvailableException;
+import ru.practicum.shareit.exception.ItemValidationException;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemWithDateDto;
 import ru.practicum.shareit.item.mapper.ItemMapper;
@@ -45,10 +46,10 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     @Transactional
-    public ItemDto createItem(Long userId, ItemDto itemDto) {
+    public ItemDto createItem(Long userId, ItemDto itemDto) throws ItemValidationException {
         User owner = userService.getUserEntityById(userId);
         if (itemDto.getName() == null || itemDto.getName().isEmpty()) {
-            throw new IllegalArgumentException("Название вещи не может быть пустым");
+            throw new ItemValidationException("Название вещи не может быть пустым");
         }
 
         Item item = ItemMapper.toItem(itemDto, owner);

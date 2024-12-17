@@ -5,11 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.service.BookingService;
+import ru.practicum.shareit.exception.ItemNotAvailableException;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/bookings")
+@RequestMapping(path ="/bookings")
 public class BookingController {
     private final BookingService bookingService;
 
@@ -19,7 +20,7 @@ public class BookingController {
 
     @PostMapping
     public ResponseEntity<BookingDto> createBooking(@RequestHeader("X-Sharer-User-Id") Long userId,
-                                                    @RequestBody BookingDto bookingDto) {
+                                                    @RequestBody BookingDto bookingDto) throws ItemNotAvailableException {
         return new ResponseEntity<>(bookingService.createBooking(userId, bookingDto), HttpStatus.CREATED);
     }
 

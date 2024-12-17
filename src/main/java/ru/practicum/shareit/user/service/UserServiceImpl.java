@@ -37,15 +37,15 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("Пользователь не найден"));
 
-        if (userDto.getName() != null) {
-            user.setName(userDto.getName());
-        }
-
         if (userDto.getEmail() != null && !userDto.getEmail().equals(user.getEmail())) {
             if (userRepository.existsByEmail(userDto.getEmail())) {
                 throw new IllegalArgumentException("Email уже существует");
             }
             user.setEmail(userDto.getEmail());
+        }
+
+        if (userDto.getName() != null) {
+            user.setName(userDto.getName());
         }
 
         User updatedUser = userRepository.save(user);
@@ -67,6 +67,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void deleteUser(Long userId) {
         if (!userRepository.existsById(userId)) {
             throw new NoSuchElementException("Пользователь не найден");
