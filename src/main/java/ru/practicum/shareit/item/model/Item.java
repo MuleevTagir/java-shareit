@@ -38,6 +38,9 @@ public class Item {
     @OneToMany(mappedBy = "item", fetch = FetchType.LAZY)
     private List<Comment> comments;
 
+    public Item() {
+    }
+
     public Item(Long id, String name, String description, Boolean available, User owner, List<Comment> comments) {
         this.id = id;
         this.name = name;

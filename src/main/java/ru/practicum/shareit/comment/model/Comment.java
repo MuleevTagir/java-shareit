@@ -28,6 +28,9 @@ public class Comment {
     @Column(name = "created", nullable = false)
     private LocalDateTime created;
 
+    public Comment() {
+    }
+
     public Comment(Long id, String text, Item item, User author, LocalDateTime created) {
         this.id = id;
         this.text = text;
