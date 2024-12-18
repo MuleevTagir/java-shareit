@@ -18,8 +18,18 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new ErrorResponse(ex.getMessage()), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(ItemNotAvailableException.class)
+    public ResponseEntity<String> handleItemNotAvailable(ItemNotAvailableException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleConflict(IllegalArgumentException ex) {
+        return new ResponseEntity<>(new ErrorResponse(ex.getMessage()), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(ItemValidationException.class)
+    public ResponseEntity<ErrorResponse> handleConflict(ItemValidationException ex) {
         return new ResponseEntity<>(new ErrorResponse(ex.getMessage()), HttpStatus.CONFLICT);
     }
 
