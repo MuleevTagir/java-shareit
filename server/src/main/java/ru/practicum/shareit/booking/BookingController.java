@@ -12,7 +12,7 @@ import ru.practicum.shareit.exception.ItemNotAvailableException;
 import java.util.List;
 
 @RestController
-@RequestMapping(path =  "/bookings")
+@RequestMapping(path = "/bookings")
 public class BookingController {
     private final BookingService bookingService;
 
