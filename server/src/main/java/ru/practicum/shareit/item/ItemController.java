@@ -1,12 +1,10 @@
 package ru.practicum.shareit.item;
 
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.comment.dto.CommentDto;
 import ru.practicum.shareit.exception.ItemNotAvailableException;
-import ru.practicum.shareit.exception.ItemValidationException;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemWithDateDto;
 import ru.practicum.shareit.item.service.ItemService;
@@ -25,7 +23,7 @@ public class ItemController {
 
     @PostMapping
     public ResponseEntity<ItemDto> createItem(@RequestHeader("X-Sharer-User-Id") Long userId,
-                                              @Valid @RequestBody ItemDto itemDto) throws ItemValidationException {
+                                              @RequestBody ItemDto itemDto) {
         return new ResponseEntity<>(itemService.createItem(userId, itemDto), HttpStatus.CREATED);
     }
 
